@@ -1,8 +1,13 @@
 import random
+from typing import List
+
 import win32gui
 
+from src.Logger import Logger
+
+
 class WindowFocuser:
-    def __init__(self, windowsHandles: list[int]):
+    def __init__(self, windowsHandles: List[int]):
         self.windowsHandles = windowsHandles
         self.pickedWindows = []
 
@@ -17,6 +22,7 @@ class WindowFocuser:
         return randomWindowHandle
 
     def focusSelectedWindow(self):
+        Logger.Log(f'Will pick window {self.pickedWindows[-1]}')
         win32gui.SetForegroundWindow(self.pickedWindows[-1])
 
     def _reset(self):

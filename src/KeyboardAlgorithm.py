@@ -2,6 +2,8 @@ import random
 
 import pyautogui as pag
 
+from src.Logger import Logger
+
 
 class KeyboardAlgorithm:
 
@@ -16,6 +18,11 @@ class KeyboardAlgorithm:
         writeSpeed = random.randint(self.minWriteSpeed, self.maxWriteSpeed)
         numberOfCharsToWrite = random.randint(
             self.minCharsToWrite, self.maxCharsToWrite)
-        charsToWrite = ''.join([self.charsToWrite[random.randint(
-            0, len(self.charsToWrite) - 1)] for _ in range(numberOfCharsToWrite)])
-        pag.write(message=charsToWrite, interval=1 / writeSpeed)
+
+        randomCharsToWrite = [random.choice(self.charsToWrite) for _ in range(numberOfCharsToWrite)]
+        writeInterval = 1 / writeSpeed
+
+        for randomChar in randomCharsToWrite:
+            pag.write(randomChar, interval=writeInterval) if len(randomChar) == 1 \
+                else pag.press(randomChar, interval=writeInterval)
+            Logger.Log(f'Wrote:\t{randomChar}')
